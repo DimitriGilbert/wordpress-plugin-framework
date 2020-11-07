@@ -11,7 +11,7 @@ trait Sub {
   
   public function addToMenu()
   {
-    add_submenu_page(
+    \add_submenu_page(
       $this->parent->menu_slug,
       $this->page_title,
       $this->menu_title,

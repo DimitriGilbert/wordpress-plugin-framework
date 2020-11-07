@@ -18,7 +18,7 @@ trait Script {
   public function enqueuScripts()
   {
     foreach ($this->scripts as $script) {
-      wp_enqueue_script(
+      \wp_enqueue_script(
         $script['name'],
         $script['src'],
         $script['deps'],

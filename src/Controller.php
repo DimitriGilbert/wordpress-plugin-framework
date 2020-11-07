@@ -27,7 +27,7 @@ class Controller
       'rest_api_init',
       function () {
         foreach ($this->endpoints as $endpoint) {
-          register_rest_route(
+          \register_rest_route(
             $this->namespace,
             $endpoint['route'],
             $endpoint['args']

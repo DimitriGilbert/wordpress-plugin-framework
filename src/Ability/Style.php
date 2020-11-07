@@ -18,7 +18,7 @@ trait Style {
   public function enqueuStyles()
   {
     foreach ($this->styles as $style) {
-      wp_enqueue_style(
+      \wp_enqueue_style(
         $style['name'],
         $style['src'],
         $style['deps'],

@@ -54,7 +54,7 @@ class Plugin
   public static function Init()
   {
     if (is_null(self::$_instance)) {
-      self::$_instance = new self();
+      self::$_instance = new static();
     }
 
     return self::$_instance;
@@ -62,8 +62,16 @@ class Plugin
 
   final public static function __callStatic(string $met, array $args ) 
   {
-    $instance = self::Init();
-    return call_user_func_array(array($instance, $met), $args);
+    if (
+      method_exists(
+        __CLASS__,
+        $met
+      )
+      && !(new \ReflectionMethod(__CLASS__))->isStatic($met)
+    ) {
+      $instance = self::Init();
+      return call_user_func_array(array($instance, $met), $args);
+    }
   }
 
   public function initAbility(string $ability, array $args = null)

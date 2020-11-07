@@ -55,13 +55,13 @@ class Table
   {
     $sql = "CREATE TABLE $this->name ($this->getFieldSql()) $this->db->get_charset_collate();";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
+    \dbDelta( $sql );
   }
 
   public function drop()
   {
     $sql = "DROP TABLE IF EXISTS $this->name;";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
+    \dbDelta( $sql );
   }
 }

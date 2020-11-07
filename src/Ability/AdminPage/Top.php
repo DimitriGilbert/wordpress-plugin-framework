@@ -12,7 +12,7 @@ trait Top {
   
   public function addToMenu()
   {
-    add_menu_page(
+    \add_menu_page(
       $this->page_title,
       $this->menu_title,
       $this->capability,
