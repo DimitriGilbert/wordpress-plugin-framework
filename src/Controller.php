@@ -13,7 +13,7 @@ class Controller
 
   public function addEndpoint(string $route, string $method, $callback, array $args = [])
   {
-    $args['method'] = $method;
+    $args['methods'] = $method;
     $args['callback'] = $callback;
     $this->endpoints[] = [
       'route'=>$route,
