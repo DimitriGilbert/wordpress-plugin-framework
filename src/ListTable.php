@@ -2,7 +2,7 @@
 namespace Dbuild\WpPlugin;
 
 class ListTable extends \WP_List_Table {
-  public $columns, $sortable_columns;
+  public $columns, $sortable_columns, $_items;
 
   function __construct(array $args = []){
     global $status, $page;
