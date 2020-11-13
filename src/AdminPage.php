@@ -26,4 +26,3 @@ class AdminPage
     $this->position = $position;
   }
 }
-
