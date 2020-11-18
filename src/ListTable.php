@@ -10,6 +10,7 @@ class ListTable extends \WP_List_Table {
     $this->items = [];
     $this->columns = [];
     $this->sortable_columns = [];
+    $this->hidden_columns = [];
   }
 
   function no_items() {
@@ -22,6 +23,7 @@ class ListTable extends \WP_List_Table {
     if ($sort) {
       $this->sortable_columns[$key] = [$key, false];
     }
+    $this->_column_headers = [$this->columns, $this->hidden_columns, $this->sortable_columns];
     return $this;
   }
 
