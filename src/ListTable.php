@@ -46,7 +46,7 @@ class ListTable extends \WP_List_Table {
         }
         elseif (is_object($item) && property_exists($item, $column_name)) {
           if (is_a($item, '\Symlink\ORM\Models\BaseModel')) {
-            return $item->$column_name;
+            return $item->get($column_name);
           }
           else {
             return $item->$column_name;
