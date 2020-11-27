@@ -34,7 +34,10 @@ class Table
   public function getFieldsSql($tabs = "\t")
   {
     $sql = "";
+    $max = count($this->fields);
+    $x = 0;
     foreach ($this->fields as $field) {
+      $x++;
       $sql .= "$tabs`".$field['name']."` ".$field['sqlType'];
       if (!is_null($field['sqlLength'])) {
         $sql .= "(".$field['sqlLength'].")";
@@ -46,7 +49,9 @@ class Table
       if (!is_null($field['more'])) {
         $sql .= " ".$field['more'];
       }
-      $sql .= ",\n";
+      if ($x<$max) {
+        $sql .= ",\n";
+      }
     }
     return $sql;
   }
