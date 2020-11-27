@@ -66,7 +66,6 @@ class Table
   public function drop()
   {
     $sql = "DROP TABLE IF EXISTS $this->name;";
-    require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-    dbDelta( $sql );
+    $this->db->query($sql);
   }
 }

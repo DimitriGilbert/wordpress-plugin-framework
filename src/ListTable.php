@@ -52,14 +52,20 @@ class ListTable extends \WP_List_Table {
   public function get_item_actions($item)
   {
     $id = '';
-    if (is_array($item) && isset($item[$column_name])) {
+    if (is_array($item) && isset($item['id'])) {
+      $id = $item['id'];
+    }
+    elseif (is_array($item) && isset($item['ID'])) {
       $id = $item['id'];
     }
     elseif (is_a($item, '\Symlink\ORM\Models\BaseModel')) {
-      $id = $item->get('id');
+      $id = $item->get('ID');
     }
     elseif (property_exists($item, 'id')) {
       $id = $item->id;
+    }
+    elseif (property_exists($item, 'ID')) {
+      $id = $item->ID;
     }
     $actions = [];
     
