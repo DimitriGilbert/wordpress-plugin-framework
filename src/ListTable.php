@@ -153,4 +153,11 @@ class ListTable extends \WP_List_Table {
       $this->primary
     ];
   }
+
+  public function render()
+  {
+    ob_start();
+    $this->display();
+    return ob_get_clean();
+  }
 }
