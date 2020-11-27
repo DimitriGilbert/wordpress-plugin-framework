@@ -2,28 +2,37 @@
 namespace Dbuild\WpPlugin;
 
 class ListTable extends \WP_List_Table {
-  public $columns, $sortable_columns, $_items;
+  public $columns, $sortable_columns, $_items, $hidden_columns, $primary, $actions;
 
   function __construct(array $args = []){
     global $status, $page;
     parent::__construct($args);
     $this->items = [];
-    $this->columns = [];
+    $this->columns = [
+      'cb'=> 'Select'
+    ];
     $this->sortable_columns = [];
     $this->hidden_columns = [];
+    $this->actions = [];
   }
 
   function no_items() {
     _e( 'No '.$this->_args['plural'].' found, dude.' );
   }
 
-  public function addColumn(string $key, string $display, bool $sort = false)
+  public function addColumn(string $key, string $display, bool $sort = false, bool $hidden = false, bool $primary = false)
   {
     $this->columns[$key] = $display;
     if ($sort) {
       $this->sortable_columns[$key] = [$key, false];
     }
-    $this->_column_headers = [$this->columns, $this->hidden_columns, $this->sortable_columns];
+    if ($hidden) {
+      $this->hidden_columns[$key] = [$key, false];
+    }
+    if ($primary) {
+      $this->primary = $key;
+    }
+    $this->prepare_items();
     return $this;
   }
 
@@ -35,25 +44,56 @@ class ListTable extends \WP_List_Table {
     return $this;
   }
 
+  public function addAction($name, $link)
+  {
+    $this->actions[$name] = $link;
+  }
+
+  public function get_item_actions($item)
+  {
+    $id = '';
+    if (is_array($item) && isset($item[$column_name])) {
+      $id = $item['id'];
+    }
+    elseif (is_a($item, '\Symlink\ORM\Models\BaseModel')) {
+      $id = $item->get('id');
+    }
+    elseif (property_exists($item, 'id')) {
+      $id = $item->id;
+    }
+    $actions = [];
+    
+    foreach ($this->actions as $action => $link) {
+      $actions[$action] = "<a href=\"$link$id\">".ucfirst($action)."</a>";
+    }
+
+    return $actions;
+  }
+
   public function get_item_column($item, $column_name)
-  {    
+  {
+    $res = '';
     switch( $column_name ) {
       case 'debug':
-        return print_r( $item, true );
+        $res = print_r( $item, true );
+      break;
       default:
         if (is_array($item) && isset($item[$column_name])) {
-          return $item[$column_name];
+          $res = $item[$column_name];
         }
         elseif (is_object($item) && property_exists($item, $column_name)) {
           if (is_a($item, '\Symlink\ORM\Models\BaseModel')) {
-            return $item->get($column_name);
+            $res = $item->get($column_name);
           }
           else {
-            return $item->$column_name;
+            $res = $item->$column_name;
           }
         }
-        return "";
     }
+    if ($column_name === $this->primary) {
+      $res .= $this->row_actions($this->get_item_actions($item));
+    }
+    return $res;
   }
 
   function column_default($item, $column_name) {
@@ -84,7 +124,10 @@ class ListTable extends \WP_List_Table {
   }
 
   function prepare_items() {
-    
+    $this->_column_headers = [$this->columns, $this->hidden_columns, $this->sortable_columns];
+    if (!isset($this->primary) && !empty($this->columns)) {
+      $this->primary = array_keys($this->columns)[0];
+    }
   }
 
   public function addItem($item)
@@ -99,5 +142,15 @@ class ListTable extends \WP_List_Table {
       $this->addItem($item);
     }
     return $this;
+  }
+
+  public function get_column_info()
+  {
+    return [
+      $this->columns,
+      $this->hidden_columns,
+      $this->sortable_columns,
+      $this->primary
+    ];
   }
 }
