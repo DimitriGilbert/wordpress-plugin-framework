@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin\Ability;
 
+/**
+ * Extends the wordpress REST API.
+ */
 trait Api {
   protected $controllers = [];
 
@@ -13,6 +16,8 @@ trait Api {
   public function addEndpoint(string $namespace, string $route, string $method, $callback, array $args = [])
   {
     if (array_key_exists($namespace, $this->controllers)) {
+      // some magic here to see if the cb is a string and a method with that name exists on the controller
+      // that way you don't have to write [$controller, 'callback_method'] just 'callback_method' as $callback value ;)
       if (is_string($callback) && method_exists($this->controllers[$namespace], $callback)) {
         $callback = [$this->controllers[$namespace], $callback];
       }

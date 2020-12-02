@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin\Ability\AdminPage;
 
+/**
+ * Admin sub menu Page.
+ */
 trait Sub {
   protected $parent;
 

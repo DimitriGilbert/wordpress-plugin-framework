@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin\Ability;
 
+/**
+ * Manage styles for a plugin.
+ */
 trait Style {
   protected $styles = [];
 

@@ -1,6 +1,10 @@
 <?php
 namespace Dbuild\WpPlugin;
 
+/**
+ * A generic WP_List_Table.
+ * @see wp-admin/includes/class-wp-list-table.php
+ */
 class ListTable extends \WP_List_Table {
   public $columns, $sortable_columns, $_items, $hidden_columns, $primary, $actions;
 
@@ -20,8 +24,23 @@ class ListTable extends \WP_List_Table {
     _e( 'No '.$this->_args['plural'].' found, dude.' );
   }
 
-  public function addColumn(string $key, string $display, bool $sort = false, bool $hidden = false, bool $primary = false)
-  {
+  /**
+   * Add a column to the table.
+   *
+   * @param string $key Column key.
+   * @param string $display Column display title.
+   * @param boolean $sort Is column sortable.
+   * @param boolean $hidden Is column hidden.
+   * @param boolean $primary Is column primary.
+   * @return this
+   */
+  public function addColumn(
+    string $key,
+    string $display,
+    bool $sort = false,
+    bool $hidden = false,
+    bool $primary = false
+  ): this {
     $this->columns[$key] = $display;
     if ($sort) {
       $this->sortable_columns[$key] = [$key, false];
@@ -44,12 +63,25 @@ class ListTable extends \WP_List_Table {
     return $this;
   }
 
-  public function addAction($name, $link)
+  /**
+   * Add an action to the table.
+   *
+   * @param string $name Action name, uc_first as display.
+   * @param string $link Action link, an id is concatenated at the end to identify target.
+   * @return void
+   */
+  public function addAction(string $name, string $link): void
   {
     $this->actions[$name] = $link;
   }
 
-  public function get_item_actions($item)
+  /**
+   * Get action string for an item
+   *
+   * @param array $item
+   * @return string
+   */
+  public function get_item_actions(array $item): string
   {
     $id = '';
     if (is_array($item) && isset($item['id'])) {
@@ -76,7 +108,14 @@ class ListTable extends \WP_List_Table {
     return $actions;
   }
 
-  public function get_item_column($item, $column_name)
+  /**
+   * Get HTML for a item column.
+   *
+   * @param array $item
+   * @param string $column_name
+   * @return string
+   */
+  public function get_item_column(array $item, string $column_name): string
   {
     $res = '';
     switch( $column_name ) {
@@ -102,26 +141,33 @@ class ListTable extends \WP_List_Table {
     return $res;
   }
 
-  function column_default($item, $column_name) {
+  /**
+   * Default column value for an item.
+   *
+   * @param array $item
+   * @param string $column_name
+   * @return string
+   */
+  function column_default(array $item, string $column_name): string {
     return $this->get_item_column($item, $column_name);
   }
 
-  function get_sortable_columns() {
+  function get_sortable_columns(): array {
     return $this->sortable_columns;
   }
   
-  function get_columns(){
+  function get_columns(): array {
     return $this->columns;
   }
 
-  function get_bulk_actions() {
+  function get_bulk_actions(): array {
     $actions = [
       'delete' => 'Delete'
     ];
     return $actions;
   }
 
-  function column_cb($item) {
+  function column_cb($item): string {
     return sprintf(
       '<input type="checkbox" name="%s[]" value="%s" />',
       $this->_args['singular'],
@@ -136,7 +182,13 @@ class ListTable extends \WP_List_Table {
     }
   }
 
-  public function addItem($item)
+  /**
+   * Add an item.
+   *
+   * @param array $item
+   * @return this
+   */
+  public function addItem(array $item)
   {
     $this->items[] = $item;
     return $this;
@@ -160,6 +212,11 @@ class ListTable extends \WP_List_Table {
     ];
   }
 
+  /**
+   * Render the table in a string.
+   *
+   * @return string
+   */
   public function render()
   {
     ob_start();

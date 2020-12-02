@@ -1,6 +1,10 @@
 <?php
 namespace Dbuild\WpPlugin;
 
+/**
+ * Create Admin Pages.
+ * Must use one of the Dbuild\WpPlugin\Ability\AdminPage trait to work properly.
+ */
 class AdminPage
 {
   public $page_title;

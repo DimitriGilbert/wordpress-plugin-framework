@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin\Ability\AdminPage;
 
+/**
+ * Admin top level Page
+ */
 trait Top {
   protected $children = [];
 

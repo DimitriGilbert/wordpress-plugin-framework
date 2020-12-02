@@ -1,6 +1,11 @@
 <?php
 namespace Dbuild\WpPlugin\Ability;
 
+/**
+ * Addon for option to manage them through WP setting interface.
+ * @uses \Dbuild\WpPlugin\Ability\Option
+ * @todo Add magic call to intercept methods and trigger setting display if needed.
+ */
 trait Setting {
   use \Dbuild\WpPlugin\Ability\Option;
 

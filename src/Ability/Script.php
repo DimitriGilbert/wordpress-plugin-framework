@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin\Ability;
 
+/**
+ * Manage scripts for a plugin.
+ */
 trait Script {
   protected $scripts = [];
 

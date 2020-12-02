@@ -51,6 +51,11 @@ class Plugin
     !is_null($domainPath)?$this->domainPath = $domainPath:null;
   }
 
+  /**
+   * Singleton pattern
+   *
+   * @return this
+   */
   public static function Init()
   {
     if (is_null(self::$_instance)) {
@@ -74,6 +79,13 @@ class Plugin
     }
   }
 
+  /**
+   * Initialize an ability.
+   *
+   * @param string $ability Ability name.
+   * @param array $args Args for initialisation.
+   * @return void
+   */
   public function initAbility(string $ability, array $args = null)
   {
     call_user_func_array(array($this, $ability.'_init'), $args);

@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin;
 
+/**
+ * A Controller to help extend the REST API.
+ */
 class Controller
 {
   public $namespace = null;
@@ -11,6 +14,15 @@ class Controller
     $this->namespace = $namespace;
   }
 
+  /**
+   * Add an endpoint.
+   *
+   * @param string $route
+   * @param string $method HTTP method string.
+   * @param callable $callback
+   * @param array $args Wordpress register_rest_route args.
+   * @return void
+   */
   public function addEndpoint(string $route, string $method, $callback, array $args = [])
   {
     $args['methods'] = $method;
@@ -21,6 +33,11 @@ class Controller
     ];
   }
 
+  /**
+   * Register existing endpoints on rest_api_init action.
+   *
+   * @return void
+   */
   public function registerEndpoints()
   {
     add_action(

@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin\Ability;
 
+/**
+ * Wordpress Option for the plugin.
+ */
 trait Option {
   protected $options = [];
 

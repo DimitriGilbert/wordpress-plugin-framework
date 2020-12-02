@@ -1,6 +1,10 @@
 <?php
 namespace Dbuild\WpPlugin\Ability;
 
+/**
+ * @deprecated now
+ * DO NOT USE, I'm going awaaaayyyyyyyy.....
+ */
 trait Install {
   public function install_init(string $file = __FILE__, string $callback = 'onInstall')
   {

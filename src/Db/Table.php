@@ -1,6 +1,9 @@
 <?php
 namespace Dbuild\WpPlugin\Db;
 
+/**
+ * Database table creation on activation and drop on deactivation.
+ */
 class Table
 {
   public $db;
