@@ -102,9 +102,9 @@ The ShortCode ability method addShortCode will add the shortcode according to wo
 
 ### Creating abilities
 
-You can create your own abilities to make the framework better suited for your need.
+You can create your own abilities to make the framework better suited for your needs.
 
-Create an ability once, reuse it in ALL you plugins !
+Create an ability once, reuse it in ALL your plugins !
 
 ```php
 Trait MyAbility {
@@ -117,15 +117,17 @@ Trait MyAbility {
 
 ### Special abilities
 
-Some abilities require additionnal Classes to work or are additional classes that plug in the life cycle of the plugin:
+Some abilities require additionnal Classes to work, or are additional classes that plug in the life cycle of the plugin:
 
-* Api uses Dbuild\WpPlugin\Controller to manage endpoints
-* Admin uses Dbuild\WpPlugin\AdminPage to manage administration pages/subpages
+* Dbuild\WpPlugin\Ability\Api uses Dbuild\WpPlugin\Controller to manage endpoints
+* Dbuild\WpPlugin\Ability\Admin uses Dbuild\WpPlugin\AdminPage to manage administration pages/subpages
 * Database tables are managed using classes extending Dbuild\WpPlugin\Db\Table
 
-If you create an ability that needs some support, well, you are very free to do so ;)
+If you create an ability that needs some support from an external class, well, you are very free to do so ;)
 
 ## Utilities
+
+For now they live here, bits of useful stuff regarding wordpress plugin creation that are neither abilities nor really fits in the plugin by themselves.
 
 ### ListTable
 
@@ -140,11 +142,12 @@ $table->addColumn("secondAndSort", "col 2 sort", true, false, false);
 $table->addColumn("hideMe", "hidden col", false, true, false);
 $tabble->addItems([
   // items to display, hey heeyyyyy
+  // first arg of addColumn is the array key for the value
 ]);
-// capture output for later use
+// capture output for later use :
 $render = $table->render();
 echo $render;
-// or just display as wordpress would do
+// or just display as wordpress would do...
 $table->display();
 ```
 
