@@ -40,7 +40,7 @@ class ListTable extends \WP_List_Table {
     bool $sort = false,
     bool $hidden = false,
     bool $primary = false
-  ): this {
+  ) {
     $this->columns[$key] = $display;
     if ($sort) {
       $this->sortable_columns[$key] = [$key, false];
