@@ -88,6 +88,8 @@ class Plugin
    */
   public function initAbility(string $ability, array $args = null)
   {
-    call_user_func_array(array($this, $ability.'_init'), $args);
+    if (method_exists([$this, $ability.'_init'])) {
+      call_user_func_array([$this, $ability.'_init'], $args);
+    }
   }
 }
