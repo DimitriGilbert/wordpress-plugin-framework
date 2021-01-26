@@ -148,7 +148,7 @@ class ListTable extends \WP_List_Table {
    * @param string $column_name
    * @return string
    */
-  function column_default(array $item, string $column_name): string {
+  function column_default($item, $column_name) {
     return $this->get_item_column($item, $column_name);
   }
 
