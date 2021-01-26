@@ -74,7 +74,12 @@ trait Setting {
     $name = $setting['inconsistant_wp_fix'];
     $display = '';
     if (isset($this->settings['settings'][$name])) {
-      $display .= '<input type="'.$this->settings['settings'][$name]['type'].'" value="'.$this->getOption($name).'" />';
+      $display .= '<input
+        type="'.$this->settings['settings'][$name]['type'].'"
+        value="'.$this->getOption($name).'"
+        name="'.$name.'"
+        id="'.$name.'"
+      />';
     }
     echo $display;
   }
