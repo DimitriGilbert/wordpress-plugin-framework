@@ -81,7 +81,7 @@ class ListTable extends \WP_List_Table {
    * @param array $item
    * @return string
    */
-  public function get_item_actions(array $item): string
+  public function get_item_actions(array $item)
   {
     $id = '';
     if (is_array($item) && isset($item['id'])) {
