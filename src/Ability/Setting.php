@@ -96,6 +96,8 @@ trait Setting {
     foreach ($this->settings['settings'] as $setting) {
       $args = $setting['args'] || [];
       $args['inconsistant_wp_fix'] = $setting['name'];
+      $regArgs = [];
+      register_setting($setting['section'], $setting['name'], $regArgs);
       add_settings_field(
         $setting['name'],
         $setting['title'],
