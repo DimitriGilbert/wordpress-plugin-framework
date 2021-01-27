@@ -74,14 +74,51 @@ trait Setting {
     $name = $setting['inconsistant_wp_fix'];
     $display = '';
     if (isset($this->settings['settings'][$name])) {
-      $display .= '<input
-        type="'.$this->settings['settings'][$name]['type'].'"
-        value="'.$this->getOption($name).'"
-        name="'.$name.'"
-        id="'.$name.'"
-      />';
+      // $display .= $this->settingField($this->settings['settings'][$name]);
+      $display = '<input
+          type="'.$this->settings['settings'][$name]['type'].'"
+          value="'.$this->getOption($name).'"
+          name="'.$name.'"
+          id="'.$name.'"
+        />';
     }
     echo $display;
+  }
+
+  public function settingField($setting) {
+    $display = '';
+    switch ($setting) {
+      case 'object':
+        break;
+      case 'boolean':
+        $display = '<input
+          type="checkbox"
+          checked="'.$this->getOption($setting['name']).'"
+          name="'.$setting['name'].'"
+          id="'.$setting['name'].'"
+        />';
+        break;
+      case 'array':
+        $display .= '<div>';
+        foreach ($this->getOption($setting['name']) as $setVal) {
+          $display .= '<div><input
+            type="'.$setting['type'].'"
+            value="'.$setVal.'"
+            name="'.$setting['name'].'[]"
+          /></div>';
+        }
+        $display .= '<button type="button" onclick="event.target.insertBefore(event.target.parentNode.firstElementChild.cloneNode())">Add One</button></div>';
+        break;
+      default:
+        $display = '<input
+            type="'.$setting['type'].'"
+            value="'.$this->getOption($setting['name']).'"
+            name="'.$setting['name'].'"
+            id="'.$setting['name'].'"
+          />';
+        break;
+    }
+    return $display;
   }
 
   public function Setting_init() {
@@ -97,7 +134,7 @@ trait Setting {
       $args = $setting['args'] || [];
       $args['inconsistant_wp_fix'] = $setting['name'];
       $regArgs = [];
-      register_setting($setting['section'], $setting['name'], $regArgs);
+      register_setting($setting['page'], $setting['name']);
       add_settings_field(
         $setting['name'],
         $setting['title'],
