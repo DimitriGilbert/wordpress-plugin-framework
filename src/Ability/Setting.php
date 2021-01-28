@@ -48,36 +48,16 @@ trait Setting {
     ];
   }
     
-  public function settingOnActivation()
-  {
+  public function settingOnActivation() {
     $this->optionOnActivation();
-    foreach ($this->settings['sections'] as $section) {
-      add_settings_section(
-        $section['name'],
-        $section['title'],
-        [$this, 'displaySettingsSection_'.$section['name']],
-        $section['page']
-      );
-    }
-    foreach ($this->settings['settings'] as $setting) {
-      add_settings_field(
-        $setting['name'],
-        $setting['title'],
-        [$this, 'displaySetting_'.$setting['name']],
-        $setting['page'],
-        $setting['section'],
-        $setting['args']
-      );
-    }
   }
 
-  public function settingOnDeactivation()
-  {
+  public function settingOnDeactivation() {
     $this->optionOndeactivation();
   }
 
-  public function displaySettingsSection(string $name)
-  {
+  public function displaySettingsSection($section) {
+    $name = $section['name'];
     $display = '<p>';
     if (isset($this->settings['sections'][$name])) {
       if (isset($this->settings['sections'][$name]['intro'])) {
@@ -90,13 +70,79 @@ trait Setting {
     echo $display.'</p>';
   }
 
-  public function displaySetting(string $name)
-  {
+  public function displaySetting($setting) {
+    $name = $setting['inconsistant_wp_fix'];
     $display = '';
     if (isset($this->settings['settings'][$name])) {
-      $setting = $this->settings['settings'][$name];
-      $display .= '<input type="'.'" />';
+      // $display .= $this->settingField($this->settings['settings'][$name]);
+      $display = '<input
+          type="'.$this->settings['settings'][$name]['type'].'"
+          value="'.$this->getOption($name).'"
+          name="'.$name.'"
+          id="'.$name.'"
+        />';
     }
     echo $display;
+  }
+
+  public function settingField($setting) {
+    $display = '';
+    switch ($setting) {
+      case 'object':
+        break;
+      case 'boolean':
+        $display = '<input
+          type="checkbox"
+          checked="'.$this->getOption($setting['name']).'"
+          name="'.$setting['name'].'"
+          id="'.$setting['name'].'"
+        />';
+        break;
+      case 'array':
+        $display .= '<div>';
+        foreach ($this->getOption($setting['name']) as $setVal) {
+          $display .= '<div><input
+            type="'.$setting['type'].'"
+            value="'.$setVal.'"
+            name="'.$setting['name'].'[]"
+          /></div>';
+        }
+        $display .= '<button type="button" onclick="event.target.insertBefore(event.target.parentNode.firstElementChild.cloneNode())">Add One</button></div>';
+        break;
+      default:
+        $display = '<input
+            type="'.$setting['type'].'"
+            value="'.$this->getOption($setting['name']).'"
+            name="'.$setting['name'].'"
+            id="'.$setting['name'].'"
+          />';
+        break;
+    }
+    return $display;
+  }
+
+  public function Setting_init() {
+    foreach ($this->settings['sections'] as $section) {
+      add_settings_section(
+        $section['name'],
+        $section['title'],
+        [$this, 'displaySettingsSection'],
+        $section['page']
+      );
+    }
+    foreach ($this->settings['settings'] as $setting) {
+      $args = $setting['args'] || [];
+      $args['inconsistant_wp_fix'] = $setting['name'];
+      $regArgs = [];
+      register_setting($setting['page'], $setting['name']);
+      add_settings_field(
+        $setting['name'],
+        $setting['title'],
+        [$this, 'displaySetting'],
+        $setting['page'],
+        $setting['section'],
+        $args
+      );
+    }
   }
 }
