@@ -1,5 +1,5 @@
 <?php
-namespace GiftTiny\Plugin\Db; 
+namespace Dbuild\WpPlugin\Db; 
 
 class Utils {
   public static function getOrm(): \Symlink\ORM\Manager
