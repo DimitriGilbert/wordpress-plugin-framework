@@ -12,7 +12,7 @@ class Utils
    */
   public static function DoingWhichHook(array $haystack, string $type) {
     $fn = "doing_".$type;
-    foreach ($haystack as $needle) {
+    foreach (array_reverse($haystack) as $needle) {
       if (call_user_func_array($fn, [$needle])) {
         return $needle;
       }
