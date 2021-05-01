@@ -10,6 +10,6 @@ trait ShortCode {
 
   public function addShortCode(string $tag, $callback)
   {
-    \add_shortcode($shortCodePrefix.$tag, $callback);
+    \add_shortcode($this->shortCodePrefix.$tag, $callback);
   }
 }
