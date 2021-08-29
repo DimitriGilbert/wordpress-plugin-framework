@@ -35,20 +35,19 @@ class Plugin
     string $licenseUri = null,
     string $textDomain = null,
     string $domainPath = null
-  )
-  {
-    !is_null($name)?$this->name = $name:null;
-    !is_null($uri)?$this->uri = $uri:null;
-    !is_null($description)?$this->description = $description:null;
-    !is_null($version)?$this->version = $version:null;
-    !is_null($wpVersion)?$this->wpVersion = $wpVersion:null;
-    !is_null($phpVersion)?$this->phpVersion = $phpVersion:null;
-    !is_null($author)?$this->author = $author:null;
-    !is_null($authorUri)?$this->authorUri = $authorUri:null;
-    !is_null($license)?$this->license = $license:null;
-    !is_null($licenseUri)?$this->licenseUri = $licenseUri:null;
-    !is_null($textDomain)?$this->textDomain = $textDomain:null;
-    !is_null($domainPath)?$this->domainPath = $domainPath:null;
+  ) {
+    $this->name = $name;
+    $this->uri = $uri;
+    $this->description = $description;
+    $this->version = $version;
+    $this->wpVersion = $wpVersion;
+    $this->phpVersion = $phpVersion;
+    $this->author = $author;
+    $this->authorUri = $authorUri;
+    $this->license = $license;
+    $this->licenseUri = $licenseUri;
+    $this->textDomain = $textDomain;
+    $this->domainPath = $domainPath;
   }
 
   /**
@@ -56,8 +55,7 @@ class Plugin
    *
    * @return this
    */
-  public static function Init()
-  {
+  public static function Init() {
     if (is_null(self::$_instance)) {
       self::$_instance = new static();
     }
@@ -65,8 +63,7 @@ class Plugin
     return self::$_instance;
   }
 
-  final public static function __callStatic(string $met, array $args ) 
-  {
+  final public static function __callStatic(string $met, array $args ) {
     if (
       method_exists(
         __CLASS__,
@@ -86,8 +83,7 @@ class Plugin
    * @param array $args Args for initialisation.
    * @return void
    */
-  public function initAbility(string $ability, array $args = null)
-  {
+  public function initAbility(string $ability, array $args = null) {
     if (method_exists($this, $ability.'_init')) {
       call_user_func_array([$this, $ability.'_init'], $args);
     }
