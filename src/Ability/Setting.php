@@ -14,6 +14,18 @@ trait Setting {
     'sections'=>[]
   ];
 
+  /**
+   * Add a setting.
+   *
+   * @param string $name
+   * @param string $title
+   * @param string $type
+   * @param [type] $default
+   * @param string $page
+   * @param string $section
+   * @param array $args
+   * @return this
+   */
   public function addSetting(
     string $name,
     string $title,
@@ -32,8 +44,18 @@ trait Setting {
       'args' => $args,
     ];
     $this->addOption($name, $default);
+    return $this;
   }
   
+  /**
+   * Add a setting section to a setting page.
+   *
+   * @param string $name
+   * @param string $title
+   * @param string $page
+   * @param string|null $intro
+   * @return this
+   */
   public function addSettingSection(
     string $name,
     string $title,
@@ -46,16 +68,33 @@ trait Setting {
       'page' => $page,
       'intro' => $intro
     ];
+    return $this;
   }
-    
+
+  /**
+   * onActivation callback.
+   *
+   * @return void
+   */
   public function settingOnActivation() {
     $this->optionOnActivation();
   }
 
+  /**
+   * onDeactivation callback.
+   *
+   * @return void
+   */
   public function settingOnDeactivation() {
     $this->optionOndeactivation();
   }
 
+  /**
+   * outputs the settings section.
+   *
+   * @param $section
+   * @return void
+   */
   public function displaySettingsSection($section) {
     $name = $section['name'];
     $display = '<p>';
@@ -70,6 +109,12 @@ trait Setting {
     echo $display.'</p>';
   }
 
+  /**
+   * Outputs a setting field.
+   *
+   * @param  $setting
+   * @return void
+   */
   public function displaySetting($setting) {
     $name = $setting['inconsistant_wp_fix'];
     $display = '';
@@ -85,7 +130,14 @@ trait Setting {
     echo $display;
   }
 
-  public function settingField($setting, $value = null) {
+  /**
+   * build the setting field.
+   *
+   * @param array $setting
+   * @param $value
+   * @return void
+   */
+  public function settingField(array $setting, $value = null) {
     $display = '';
     switch ($setting['type']) {
       case 'object':
@@ -113,7 +165,21 @@ trait Setting {
     return $display;
   }
 
-  public function settingInputField(string $name, $value = null, string $id = null, string $type = 'text'): string {
+  /**
+   * 
+   *
+   * @param string $name
+   * @param $value
+   * @param string|null $id
+   * @param string $type
+   * @return string
+   */
+  public function settingInputField(
+    string $name,
+    $value = null,
+    string $id = null,
+    string $type = 'text'
+  ): string {
     return '<input
       type="'.$type.'"
       value="'.$value.'"
@@ -122,6 +188,13 @@ trait Setting {
     />';
   }
 
+  /**
+   * 
+   *
+   * @param string $name
+   * @param array $values
+   * @return string
+   */
   public function settingArrayField(string $name, $values = []) {
     $display = '<div>';
     $i = 0;
@@ -137,6 +210,14 @@ trait Setting {
     return $display;
   }
 
+  /**
+   * 
+   *
+   * @param string $name
+   * @param array $data
+   * @param array $specs
+   * @return string
+   */
   public function settingObjectField(string $name, $data = [], $specs = []) {
     $display = '<div>';
     foreach ($data as $key => $val) {
@@ -161,6 +242,11 @@ trait Setting {
     return $display;
   }
 
+  /**
+   * Init callback.
+   *
+   * @return void
+   */
   public function Setting_init() {
     foreach ($this->settings['sections'] as $section) {
       add_settings_section(

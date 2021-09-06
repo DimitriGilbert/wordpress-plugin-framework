@@ -23,8 +23,12 @@ class Controller
    * @param array $args Wordpress register_rest_route args.
    * @return void
    */
-  public function addEndpoint(string $route, string $method, $callback, array $args = [])
-  {
+  public function addEndpoint(
+    string $route,
+    string $method,
+    $callback,
+    array $args = []
+  ) {
     $args['methods'] = $method;
     $args['callback'] = $callback;
     $this->endpoints[] = [
@@ -38,8 +42,7 @@ class Controller
    *
    * @return void
    */
-  public function registerEndpoints()
-  {
+  public function registerEndpoints() {
     add_action(
       'rest_api_init',
       function () {

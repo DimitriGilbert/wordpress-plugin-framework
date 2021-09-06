@@ -10,6 +10,15 @@ trait Block {
 
   public $blocks = [];
 
+  /**
+   * Add a Gutenberg block
+   *
+   * @param string $name
+   * @param string $title
+   * @param string $icon
+   * @param string $category
+   * @return this
+   */
   public function addBlock(
     string $name,
     string $title = '',
@@ -22,8 +31,14 @@ trait Block {
       'icon' => $icon !== '' ? $icon : 'dashicons-wordpress',
       'category' => $category !== '' ? $category : 'common',
     ];
+    return $this;
   }
 
+  /**
+   * Initialize declared blocks.
+   *
+   * @return this
+   */
   public function Block_init() {// automatically load dependencies and version
     $asset_file = include( plugin_dir_path( __FILE__ ) . 'blocks/build/index.asset.php');
     wp_register_script(
@@ -46,5 +61,6 @@ trait Block {
         'editor_script' => $this->name.'-gutenberg-blocks',
       ));
     }
+    return $this;
   }
 }

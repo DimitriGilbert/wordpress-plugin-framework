@@ -8,7 +8,7 @@ namespace Dbuild\WpPlugin;
 class ListTable extends \WP_List_Table {
   public $columns, $sortable_columns, $_items, $hidden_columns, $primary, $actions;
 
-  function __construct(array $args = []){
+  function __construct(array $args = []) {
     global $status, $page;
     parent::__construct($args);
     $this->items = [];
@@ -55,8 +55,13 @@ class ListTable extends \WP_List_Table {
     return $this;
   }
 
-  public function addColumns(array $columns)
-  {
+  /**
+   * Add a column to the table.
+   *
+   * @param array $columns
+   * @return this
+   */
+  public function addColumns(array $columns) {
     foreach ($columns as $key => $display ) {
       $this->addColumn($key, $display);
     }

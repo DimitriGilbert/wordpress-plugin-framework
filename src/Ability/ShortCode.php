@@ -8,8 +8,15 @@ trait ShortCode {
   protected $shortCodes = [];
   protected $shortCodePrefix = "";
 
-  public function addShortCode(string $tag, $callback)
-  {
+  /**
+   * add a shortcode.
+   *
+   * @param string $tag
+   * @param callable $callback
+   * @return this
+   */
+  public function addShortCode(string $tag, callable $callback) {
     \add_shortcode($this->shortCodePrefix.$tag, $callback);
+    return $this;
   }
 }

@@ -17,7 +17,7 @@ composer require dbuild/wp-plugin-framework
 
 ## Usage
 
-### Main plugin file
+### "Main" plugin file
 
 For wordpress purpose only
 
@@ -49,7 +49,7 @@ if(method_exists($MyPlugin, 'onDeactivation')){
 
 ```
 
-### The real plugin file
+### The real main plugin file
 
 ```php
 class MyPlugin extends \Dbuild\WpPlugin\Plugin {
@@ -99,6 +99,71 @@ class MyPlugin extends \Dbuild\WpPlugin\Plugin {
 ```
 
 The ShortCode ability method addShortCode will add the shortcode according to wordpress recomendation, never will you ever have to browse the codex on the hunt for the correct action to hook in, just use an ability !
+
+### Abilities list
+
+* Activate
+  
+* Admin
+  * ___addPage___ add an admin page
+    * \Dbuild\WpPlugin\AdminPage $page
+    * $parent = null
+* Api
+  * ___addController___ add a controller
+    * \Dbuild\WpPlugin\Controller $controller
+  * ___addEndpoint___ add an endpoint to a controller
+    * string $namespace, controller namespace
+    * string $route, route within the namespace
+    * string $method, HTTP method
+    * $callback,
+    * array $args = [] endpoints arguments
+  * ___registerControllers___ trigger controller registration
+* Block
+  * ___addBlock___ add a block
+    * string $name,
+    * string $title = '',
+    * string $icon = '',
+    * string $category = ''
+  * ___Block_init___ trigger block initialisation in wordpress
+* Option
+  * ___addOption___
+    string $name,
+    $value,
+    bool $autoload = true
+  * ___getOption___
+    * string $name,
+    * $default = false
+  * ___setOption___
+* Script
+  * ___addScript___
+    string $name,
+    string $src = '',
+    array $deps = array(),
+    $ver = false,
+    bool $in_footer = false
+  * ___enqueuScripts___
+* Setting
+  * ___addSetting___
+  * ___addSettingSection___
+  * ___displaySettingsSection___
+  * ___displaySetting___
+  * ___settingField___
+  * ___settingInputField___
+  * ___settingArrayField___
+  * ___settingObjectField___
+* ShortCode
+  * ___addShortCode___
+    * string $tag,
+    * $callback
+* Style
+  * ___addStyle___
+    * string $name,
+    * string $src = '',
+    * array $deps = array(),
+    * $ver = false,
+    * string $media = 'all'
+
+## Extending
 
 ### Creating abilities
 

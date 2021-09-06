@@ -7,18 +7,39 @@ namespace Dbuild\WpPlugin\Ability;
 trait Option {
   protected $options = [];
 
-  public function addOption(string $name, $value, bool $autoload = true)
-  {
+  /**
+   * Add an option
+   *
+   * @param string $name
+   * @param $value
+   * @param boolean $autoload
+   * @return this
+   */
+  public function addOption(
+    string $name,
+    $value,
+    bool $autoload = true
+  ) {
     $this->options[$name] = [
       'name' => $name,
       'value' => $value,
       'autoload' => $autoload,
       'loaded' => false
     ];
+    return $this;
   }
 
-  public function getOption(string $name, $default = false)
-  {
+  /**
+   * Get an option value.
+   *
+   * @param string $name
+   * @param boolean $default
+   * @return mixed
+   */
+  public function getOption(
+    string $name,
+    $default = false
+  ) {
     if (!array_key_exists($name, $this->options)) {
       return $default;
     }
@@ -29,8 +50,14 @@ trait Option {
     return $this->options[$name]['value'];
   }
 
-  public function setOption(string $name, $value)
-  {
+  /**
+   * Set the option value.
+   *
+   * @param string $name
+   * @param mixed $value
+   * @return bool
+   */
+  public function setOption(string $name, $value) {
     if (!array_key_exists($name, $this->options)) {
       return false;
     }
@@ -38,6 +65,11 @@ trait Option {
     return update_option($name, $value);
   }
 
+  /**
+   * onActivation callback.
+   *
+   * @return void
+   */
   public function optionOnActivation()
   {
     foreach ($this->options as $option) {
@@ -50,6 +82,11 @@ trait Option {
     }
   }
 
+  /**
+   * onDeactivation callback.
+   *
+   * @return void
+   */
   public function optionOnDeactivation()
   {
     foreach ($this->options as $option) {

@@ -7,13 +7,23 @@ namespace Dbuild\WpPlugin\Ability\AdminPage;
 trait Sub {
   protected $parent;
 
-  public function setParent(\Dbuild\WpPlugin\AdminPage $parent)
-  {
+  /**
+   * Set the pages parent.
+   *
+   * @param \Dbuild\WpPlugin\AdminPage $parent
+   * @return this
+   */
+  public function setParent(\Dbuild\WpPlugin\AdminPage $parent) {
     $this->parent = $parent;
+    return $this;
   }
   
-  public function addToMenu()
-  {
+  /**
+   * add sub menu page.
+   *
+   * @return void
+   */
+  public function addToMenu() {
     \add_submenu_page(
       $this->parent->menu_slug,
       $this->page_title,

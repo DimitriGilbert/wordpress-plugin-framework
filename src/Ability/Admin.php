@@ -16,8 +16,10 @@ trait Admin {
    * @param \Dbuild\WpPlugin\AdminPage|int $parent Either another admin page or the its index in $this::pages.
    * @return void
    */
-  public function addPage(\Dbuild\WpPlugin\AdminPage $page, $parent = null)
-  {
+  public function addPage(
+    \Dbuild\WpPlugin\AdminPage $page,
+    $parent = null
+  ) {
     if (!is_null($parent) && method_exists($page, 'setParent')) {
       if (is_int($parent)) {
         if (isset($this->pages[$parent])) {

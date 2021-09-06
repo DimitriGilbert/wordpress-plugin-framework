@@ -7,8 +7,23 @@ namespace Dbuild\WpPlugin\Ability;
 trait Script {
   protected $scripts = [];
 
-  public function addScript( string $name, string $src = '', array $deps = array(), $ver = false, bool $in_footer = false )
-  {
+  /**
+   * Add a frontend script to the plugin.
+   *
+   * @param string $name
+   * @param string $src
+   * @param array $deps
+   * @param boolean $ver
+   * @param boolean $in_footer
+   * @return this
+   */
+  public function addScript(
+    string $name,
+    string $src = '',
+    array $deps = array(),
+    $ver = false,
+    bool $in_footer = false
+  ) {
     $this->scripts[] = [
       'name' => $name,
       'src' => $src,
@@ -16,10 +31,15 @@ trait Script {
       'ver' => $ver,
       'in_footer' => $in_footer,
     ];
+    return $this;
   }
 
-  public function enqueuScripts()
-  {
+  /**
+   * Enqueu all added scripts.
+   *
+   * @return void
+   */
+  public function enqueuScripts() {
     foreach ($this->scripts as $script) {
       \wp_enqueue_script(
         $script['name'],

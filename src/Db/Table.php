@@ -10,21 +10,29 @@ class Table
   public $name = null;
   public $fields = [];
 
-  public function __construct(string $name)
-  {
+  public function __construct(string $name) {
     global $wpdb;
     $this->db = $wpdb;
     $this->name = $this->db->prefix.$name;
   }
 
+  /**
+   * Add a field to the table.
+   *
+   * @param string $name
+   * @param string $sqlType
+   * @param integer|null $sqlLength
+   * @param boolean $nullable
+   * @param string|null $more
+   * @return this
+   */
   public function addField(
     string $name,
     string $sqlType,
     int $sqlLength = null,
     bool $nullable = false,
     string $more = null
-  )
-  {
+  ) {
     $this->fields[$name] = [
       'name' => $name,
       'sqlType' => $sqlType,
@@ -32,10 +40,16 @@ class Table
       'nullable' => $nullable,
       'more' => $more
     ];
+    return $this;
   }
 
-  public function getFieldsSql($tabs = "\t")
-  {
+  /**
+   * Get the field sql definition.
+   *
+   * @param string $tabs
+   * @return string
+   */
+  public function getFieldsSql($tabs = "\t") {
     $sql = "";
     $max = count($this->fields);
     $x = 0;
@@ -59,15 +73,23 @@ class Table
     return $sql;
   }
 
-  public function create()
-  {
-    $sql = "CREATE TABLE $this->name (".$this->getFieldsSql().") ".$this->db->get_charset_collate().";";
+  /**
+   * create the table if it doesn't exist.
+   *
+   * @return void
+   */
+  public function create() {
+    $sql = "CREATE TABLE IF NOT EXISTS $this->name ({$this->getFieldsSql()}) {$this->db->get_charset_collate()};";
     require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
     dbDelta( $sql );
   }
 
-  public function drop()
-  {
+  /**
+   * drop the database table.
+   *
+   * @return void
+   */
+  public function drop() {
     $sql = "DROP TABLE IF EXISTS $this->name;";
     $this->db->query($sql);
   }
