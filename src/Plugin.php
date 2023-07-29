@@ -55,9 +55,35 @@ class Plugin
    *
    * @return this
    */
-  public static function Init() {
+  public static function Init(
+    string $name = null,
+    string $uri = null,
+    string $description = null,
+    string $version = null,
+    string $wpVersion = null,
+    string $phpVersion = null,
+    string $author = null,
+    string $authorUri = null,
+    string $license = null,
+    string $licenseUri = null,
+    string $textDomain = null,
+    string $domainPath = null
+  ) {
     if (is_null(self::$_instance)) {
-      self::$_instance = new static();
+      self::$_instance = new static(
+        $name,
+        $uri,
+        $description,
+        $version,
+        $wpVersion,
+        $phpVersion,
+        $author,
+        $authorUri,
+        $license,
+        $licenseUri,
+        $textDomain,
+        $domainPath
+      );
     }
 
     return self::$_instance;
@@ -74,6 +100,7 @@ class Plugin
       $instance = self::Init();
       return call_user_func_array(array($instance, $met), $args);
     }
+    throw new \BadMethodCallException("Method $met does not exist.");
   }
 
   /**
