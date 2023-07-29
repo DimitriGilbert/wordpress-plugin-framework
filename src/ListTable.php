@@ -88,15 +88,15 @@ class ListTable extends \WP_List_Table {
       $id = $item['id'];
     }
     elseif (is_array($item) && isset($item['ID'])) {
-      $id = $item['id'];
+      $id = $item['ID'];
     }
     elseif (is_a($item, '\Symlink\ORM\Models\BaseModel')) {
       $id = $item->get('ID');
     }
-    elseif (property_exists($item, 'id')) {
+    elseif (is_object($item) && property_exists($item, 'id')) {
       $id = $item->id;
     }
-    elseif (property_exists($item, 'ID')) {
+    elseif (is_object($item) && property_exists($item, 'ID')) {
       $id = $item->ID;
     }
     $actions = [];
